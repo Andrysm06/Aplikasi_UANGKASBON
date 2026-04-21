@@ -3,13 +3,16 @@ require('dotenv').config();
 
 // CONFIG DATABASE MYSQL (Cloudhebat)
 const dbConfig = {
-  host: '103.178.175.132', // IP Server Cloudhebat
-  user: 'qcuywdpj_uangkasbon1',
-  password: 'e2dwxUhByHvVzJpbDzLt',
-  database: 'qcuywdpj_uangkasbon1',
+  host: process.env.MYSQL_HOST || '103.178.175.132',
+  user: process.env.MYSQL_USER || 'qcuywdpj_uangkasbon1',
+  password: process.env.MYSQL_PASSWORD || 'e2dwxUhByHvVzJpbDzLt',
+  database: process.env.MYSQL_DATABASE || 'qcuywdpj_uangkasbon1',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  ssl: {
+    rejectUnauthorized: false // Penting untuk koneksi remote hosting
+  }
 };
 
 let pool;
@@ -133,6 +136,19 @@ async function initDB() {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
+
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS setting (
+      id INT PRIMARY KEY AUTO_INCREMENT, 
+      \`key\` VARCHAR(255) UNIQUE, 
+      value TEXT 
+    )`);
+
+  // SEED SETTING DEFAULT
+  const [sets] = await db.execute('SELECT * FROM setting WHERE `key` = "nama_toko" LIMIT 1');
+  if (sets.length === 0) {
+    await db.execute('INSERT INTO setting (`key`, value) VALUES (?, ?)', ['nama_toko', 'UANG KASBON']);
+  }
 
   // SEED ADMIN
   const [admins] = await db.execute('SELECT * FROM users WHERE role = "admin" LIMIT 1');

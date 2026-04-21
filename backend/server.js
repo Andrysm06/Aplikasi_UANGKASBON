@@ -58,6 +58,10 @@ if (require('fs').existsSync(FRONTEND_BUILD)) {
 
 // PORT dari env (cPanel hosting) atau fallback ke 5000 untuk development
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server Siap di http://127.0.0.1:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Server Siap di http://127.0.0.1:${PORT}`);
+  });
+}
+
+module.exports = app;
