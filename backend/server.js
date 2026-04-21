@@ -36,6 +36,7 @@ const notifRoutes = require('./routes/notif');
 const stokRoutes = require('./routes/stok');
 
 app.use('/api/auth', authRoutes);
+app.get('/api/test', (req, res) => res.json({ status: 'Server Vercel OK!' }));
 app.use('/api/kasbon', kasbonRoutes);
 app.use('/api/karyawan', karyawanRoutes);
 app.use('/api/dashboard', dashboardRoutes);
