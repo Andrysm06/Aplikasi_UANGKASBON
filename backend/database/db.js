@@ -1,17 +1,18 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-// CONFIG DATABASE MYSQL (Cloudhebat)
+// CONFIG DATABASE MYSQL (Aiven / Remote)
 const dbConfig = {
-  host: process.env.MYSQL_HOST || '103.178.175.132',
-  user: process.env.MYSQL_USER || 'qcuywdpj_uangkasbon1',
-  password: process.env.MYSQL_PASSWORD || 'e2dwxUhByHvVzJpbDzLt',
-  database: process.env.MYSQL_DATABASE || 'qcuywdpj_uangkasbon1',
+  host: process.env.MYSQL_HOST,
+  port: process.env.MYSQL_PORT || 24904,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
   ssl: {
-    rejectUnauthorized: false
+    rejectUnauthorized: false // Wajib untuk Aiven
   }
 };
 
