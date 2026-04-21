@@ -1,0 +1,24 @@
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"13 IBOX","merek":"APPLE","tipe":"","kondisi":"BARU","stok":1,"harga_beli":6000000,"harga_jual":6500000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"IPHONE 12 PRO","merek":"APPLE/INTER","tipe":"BLUE / 256GB","kondisi":"BARU","stok":1,"harga_beli":5100000,"harga_jual":5100000,"status":"TERJUAL","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"INFINIX NOTE 40 PRO ","merek":"INFINIX","tipe":"TITANIUM/ 8+8 256GB","kondisi":"BARU","stok":1,"harga_beli":2050000,"harga_jual":2750000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"REALME Y30","merek":"REALME ","tipe":"YELLOW/ 6+6 128GB","kondisi":"BARU","stok":1,"harga_beli":1000000,"harga_jual":1400000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (PUT) ---
+Body: {"kategori":"HP","nama_produk":"REALME Y30","merek":"REALME ","tipe":"YELLOW/ 6+6 128GB","kondisi":"BARU","stok":1,"harga_beli":1000000,"harga_jual":1400000,"status":"TERJUAL","keterangan":"SUDAH TERJUAL PAK ANDI CREDIT PER RIT 100","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"VIVO ","merek":"VIVO ","tipe":"HITAM / 4-128GB","kondisi":"BARU","stok":1,"harga_beli":800000,"harga_jual":800000,"status":"TERJUAL","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"OPPO A16","merek":"OPPO","tipe":"SILVER / 3-32GB","kondisi":"BARU","stok":1,"harga_beli":500000,"harga_jual":500000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"IPHONE 12 PRO ","merek":"APPLE","tipe":"256","kondisi":"BARU","stok":1,"harga_beli":4450000,"harga_jual":5200000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"OPPO A17 ","merek":"OPPO","tipe":"BLUE / 4+4 64GB","kondisi":"BARU","stok":1,"harga_beli":500000,"harga_jual":800000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (PUT) ---
+Body: {"kategori":"HP","nama_produk":"OPPO A17 ","merek":"OPPO","tipe":"BLUE / 4+4 64GB","kondisi":"BARU","stok":1,"harga_beli":500000,"harga_jual":500000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (PUT) ---
+Body: {"kategori":"HP","nama_produk":"OPPO A17 ","merek":"OPPO","tipe":"BLUE / 4+4 64GB","kondisi":"BARU","stok":1,"harga_beli":500000,"harga_jual":500000,"status":"TERJUAL","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
+--- LOG PAYLOAD (POST) ---
+Body: {"kategori":"HP","nama_produk":"VIVO Y29 4G","merek":"VIVO","tipe":"WHITE / 8 -256GB","kondisi":"BARU","stok":1,"harga_beli":2300000,"harga_jual":3800000,"status":"TERSEDIA","keterangan":"","is_tt":0,"tt_barang":"","tt_merek":"","tt_tipe":"","tt_harga":0,"tt_harga_jual":0,"tt_profit":0}
