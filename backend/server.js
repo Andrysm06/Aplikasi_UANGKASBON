@@ -10,11 +10,11 @@ app.use(express.json({ limit: '10mb' }));
 // Inisialisasi Database (Tanpa await agar tidak menghalangi startup)
 initDB().catch(err => console.error('DB_INIT_ERROR:', err));
 
-// Rute Tes
-app.get('/api/test', (req, res) => res.json({ status: 'OK', time: new Date() }));
+// Rute Tes (Fleksibel)
+app.get(['/api/test', '/test'], (req, res) => res.json({ status: 'OK', time: new Date() }));
 
-// Diagnosa Database
-app.get('/api/diag', async (req, res) => {
+// Diagnosa Database (Fleksibel)
+app.get(['/api/diag', '/diag'], async (req, res) => {
   try {
     const { getDB } = require('./database/db');
     const db = await getDB();
