@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { initDB } = require('./database/db');
+const { initDB, migrationStatus } = require('./database/db');
 
 const app = express();
 app.use(cors());
@@ -25,6 +25,7 @@ app.get(['/api/diag', '/diag'], async (req, res) => {
       status: 'Koneksi Database SUKSES!', 
       total_user: users[0].total,
       karyawan_columns: cols.map(c => c.Field || c.column_name),
+      migration: migrationStatus,
       provider: 'Aiven MySQL' 
     });
   } catch (e) {

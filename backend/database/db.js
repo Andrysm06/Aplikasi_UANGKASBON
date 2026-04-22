@@ -17,6 +17,7 @@ const dbConfig = {
 };
 
 let pool;
+let migrationStatus = { status: 'pending', details: [] };
 
 async function getDB() {
   if (!pool) {
@@ -175,10 +176,17 @@ async function initDB() {
     }
 
     // PATCH: Tambah kolom karyawan jika belum ada (V5.5.8 fix)
+    migrationStatus.status = 'running';
     const runPatch = async (query) => {
-      try { await db.execute(query); } catch (e) {
+      try { 
+        await db.query(query); 
+        migrationStatus.details.push({ query, result: 'success' });
+      } catch (e) {
         if (!e.message.includes('duplicate column') && !e.message.includes('already exists')) {
           console.error('PATCH_ERR:', e.message);
+          migrationStatus.details.push({ query, result: 'error', message: e.message });
+        } else {
+          migrationStatus.details.push({ query, result: 'already_exists' });
         }
       }
     };
@@ -192,9 +200,12 @@ async function initDB() {
     await runPatch("ALTER TABLE stok_unit ADD COLUMN tt_merek VARCHAR(100) DEFAULT ''");
     await runPatch("ALTER TABLE stok_unit ADD COLUMN tt_tipe VARCHAR(100) DEFAULT ''");
     await runPatch("ALTER TABLE stok_unit ADD COLUMN tt_harga_jual BIGINT DEFAULT 0");
+    migrationStatus.status = 'finished';
   } catch (err) {
     console.error('❌ DATABASE_INIT_FAILED:', err);
+    migrationStatus.status = 'failed';
+    migrationStatus.error = err.message;
   }
 }
 
-module.exports = { getDB, initDB };
+module.exports = { getDB, initDB, migrationStatus };
