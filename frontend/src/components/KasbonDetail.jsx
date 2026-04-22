@@ -32,13 +32,13 @@ export default function KasbonDetail({ id, onClose, onRefresh }) {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/5 bg-white/3">
           <div className="flex items-center gap-3 text-white">
-             <div className="w-10 h-10 bg-primary-600/30 rounded-xl flex items-center justify-center text-primary-400">
-                <FiInfo className="w-5 h-5" />
-             </div>
-             <div>
-                <h2 className="text-xl font-black uppercase tracking-tight">Detail Pengajuan</h2>
-                <p className="text-[10px] text-dark-500 font-bold tracking-widest uppercase">Pemeriksaan Keaslian Data</p>
-             </div>
+            <div className="w-10 h-10 bg-primary-600/30 rounded-xl flex items-center justify-center text-primary-400">
+              <FiInfo className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-xl font-black uppercase tracking-tight">Detail Pengajuan</h2>
+              <p className="text-[10px] text-dark-500 font-bold tracking-widest uppercase">Pemeriksaan Keaslian Data</p>
+            </div>
           </div>
           <button onClick={onClose} className="p-3 bg-white/5 hover:bg-white/10 rounded-2xl transition-all shadow-lg active:scale-95"><FiX /></button>
         </div>
@@ -69,21 +69,21 @@ export default function KasbonDetail({ id, onClose, onRefresh }) {
               {/* Financials */}
               <div className="space-y-6">
                 <div className="p-6 bg-primary-600/10 rounded-[32px] border border-primary-500/20 shadow-inner">
-                   <p className="text-[10px] text-primary-400 font-black uppercase tracking-widest text-center mb-2">Estimasi Pencairan</p>
-                   <h3 className="text-3xl font-black text-white text-center tracking-tight">{formatCurrency(data.pokok)}</h3>
+                  <p className="text-[10px] text-primary-400 font-black uppercase tracking-widest text-center mb-2">Estimasi Pencairan</p>
+                  <h3 className="text-3xl font-black text-white text-center tracking-tight">{formatCurrency(data.pokok)}</h3>
                 </div>
 
                 <div className="glass-card p-6 border-white/5 bg-dark-800/50">
                   <p className="text-[10px] text-dark-500 font-black uppercase tracking-widest mb-3 flex items-center gap-2"><FiFileText /> Keperluan Dana</p>
                   <p className="text-xs text-gray-300 leading-relaxed italic">"{data.keperluan || 'Tidak ada alasan spesifik yang dicantumkan.'}"</p>
                 </div>
-                
+
                 <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex justify-between items-center">
-                   <div className="flex items-center gap-3 text-emerald-400">
-                      <FiDollarSign />
-                      <span className="text-[10px] font-black uppercase tracking-widest">Total Tagihan</span>
-                   </div>
-                   <span className="text-sm font-black text-white uppercase tracking-tighter">{formatCurrency(data.total_tagihan)}</span>
+                  <div className="flex items-center gap-3 text-emerald-400">
+                    <FiDollarSign />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Total Tagihan</span>
+                  </div>
+                  <span className="text-sm font-black text-white uppercase tracking-tighter">{formatCurrency(data.total_tagihan)}</span>
                 </div>
               </div>
             </div>
