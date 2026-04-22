@@ -19,7 +19,12 @@ app.get(['/api/diag', '/diag'], async (req, res) => {
     const { getDB } = require('./database/db');
     const db = await getDB();
     await db.execute('SELECT 1');
-    res.json({ status: 'Koneksi Database SUKSES!', provider: 'Cloudhebat MySQL' });
+    const [users] = await db.execute('SELECT COUNT(*) as total FROM users');
+    res.json({ 
+      status: 'Koneksi Database SUKSES!', 
+      total_user: users[0].total,
+      provider: 'Aiven MySQL' 
+    });
   } catch (e) {
     res.status(500).json({ status: 'Koneksi Database GAGAL', error: e.message });
   }
