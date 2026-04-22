@@ -18,6 +18,12 @@ app.get(['/api/diag', '/diag'], async (req, res) => {
   try {
     const { getDB } = require('./database/db');
     const db = await getDB();
+    
+    // Auto-Migrate if failed or forced
+    if (migrationStatus.status !== 'finished' || req.query.force === 'true') {
+      await initDB();
+    }
+
     await db.execute('SELECT 1');
     const [users] = await db.execute('SELECT COUNT(*) as total FROM users');
     const [cols] = await db.execute('DESCRIBE karyawan');
@@ -29,7 +35,7 @@ app.get(['/api/diag', '/diag'], async (req, res) => {
       provider: 'Aiven MySQL' 
     });
   } catch (e) {
-    res.status(500).json({ status: 'Koneksi Database GAGAL', error: e.message });
+    res.status(500).json({ status: 'Koneksi Database GAGAL', error: e.message, migration: migrationStatus });
   }
 });
 
@@ -44,6 +50,16 @@ app.get('/api/force-seed', async (req, res) => {
     res.json({ status: 'Admin Created Successfully!' });
   } catch (e) {
     res.status(500).json({ status: 'Force Seed Failed', error: e.message });
+  }
+});
+
+// Manual Migration Trigger
+app.get(['/api/migrate', '/migrate'], async (req, res) => {
+  try {
+    await initDB();
+    res.json({ message: 'Migrasi selesai', migration: migrationStatus });
+  } catch (e) {
+    res.status(500).json({ message: 'Migrasi gagal', error: e.message });
   }
 });
 
