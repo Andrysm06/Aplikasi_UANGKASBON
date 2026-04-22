@@ -61,6 +61,10 @@ async function initDB() {
         nik VARCHAR(50) UNIQUE NOT NULL, 
         nama VARCHAR(255) NOT NULL, 
         departemen VARCHAR(255) DEFAULT '-', 
+        jabatan VARCHAR(255) DEFAULT '-',
+        no_hp VARCHAR(50) DEFAULT '-',
+        email VARCHAR(255) DEFAULT '-',
+        tgl_masuk DATE,
         status VARCHAR(50) DEFAULT 'aktif' 
       )`);
 
@@ -134,7 +138,10 @@ async function initDB() {
         keterangan TEXT,
         is_tt INT DEFAULT 0,
         tt_barang TEXT,
+        tt_merek VARCHAR(100) DEFAULT '',
+        tt_tipe VARCHAR(100) DEFAULT '',
         tt_harga BIGINT DEFAULT 0,
+        tt_harga_jual BIGINT DEFAULT 0,
         tt_profit BIGINT DEFAULT 0,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -166,8 +173,25 @@ async function initDB() {
     if (kas[0].count === 0) {
       await db.execute('INSERT INTO kas_utama (saldo) VALUES (?)', [0]);
     }
+
+    // PATCH: Tambah kolom karyawan jika belum ada (V5.5.8 fix)
+    const [cols] = await db.execute("SHOW COLUMNS FROM karyawan");
+    const colNames = cols.map(c => c.Field);
+    
+    if (!colNames.includes('jabatan')) await db.execute("ALTER TABLE karyawan ADD COLUMN jabatan VARCHAR(255) DEFAULT '-'");
+    if (!colNames.includes('no_hp')) await db.execute("ALTER TABLE karyawan ADD COLUMN no_hp VARCHAR(50) DEFAULT '-'");
+    if (!colNames.includes('email')) await db.execute("ALTER TABLE karyawan ADD COLUMN email VARCHAR(255) DEFAULT '-'");
+    if (!colNames.includes('tgl_masuk')) await db.execute("ALTER TABLE karyawan ADD COLUMN tgl_masuk DATE");
+
+    // PATCH: Tambah kolom stok_unit jika belum ada
+    const [colsStok] = await db.execute("SHOW COLUMNS FROM stok_unit");
+    const colNamesStok = colsStok.map(c => c.Field);
+
+    if (!colNamesStok.includes('tt_merek')) await db.execute("ALTER TABLE stok_unit ADD COLUMN tt_merek VARCHAR(100) DEFAULT ''");
+    if (!colNamesStok.includes('tt_tipe')) await db.execute("ALTER TABLE stok_unit ADD COLUMN tt_tipe VARCHAR(100) DEFAULT ''");
+    if (!colNamesStok.includes('tt_harga_jual')) await db.execute("ALTER TABLE stok_unit ADD COLUMN tt_harga_jual BIGINT DEFAULT 0");
   } catch (err) {
-    console.error('❌ DATABASE_INIT_FAILED:', err.message);
+    console.error('❌ DATABASE_INIT_FAILED:', err);
   }
 }
 
