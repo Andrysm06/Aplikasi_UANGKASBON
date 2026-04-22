@@ -175,45 +175,23 @@ async function initDB() {
     }
 
     // PATCH: Tambah kolom karyawan jika belum ada (V5.5.8 fix)
-    console.log('--- RUNNING DB PATCH (KARYAWAN) ---');
-    try {
-      const [cols] = await db.execute("DESCRIBE karyawan");
-      const colNames = cols.map(c => (c.Field || c.column_name || '').toLowerCase());
-      
-      const addCol = async (tbl, col, type) => {
-        if (!colNames.includes(col.toLowerCase())) {
-          console.log(`Adding column ${col} to ${tbl}...`);
-          await db.execute(`ALTER TABLE ${tbl} ADD COLUMN ${col} ${type}`);
+    const runPatch = async (query) => {
+      try { await db.execute(query); } catch (e) {
+        if (!e.message.includes('duplicate column') && !e.message.includes('already exists')) {
+          console.error('PATCH_ERR:', e.message);
         }
-      };
+      }
+    };
 
-      await addCol('karyawan', 'jabatan', "VARCHAR(255) DEFAULT '-'");
-      await addCol('karyawan', 'no_hp', "VARCHAR(50) DEFAULT '-'");
-      await addCol('karyawan', 'email', "VARCHAR(255) DEFAULT '-'");
-      await addCol('karyawan', 'tgl_masuk', "DATE");
-    } catch (e) {
-      console.error('❌ PATCH_KARYAWAN_FAILED:', e.message);
-    }
-
-    // PATCH: Tambah kolom stok_unit jika belum ada
-    console.log('--- RUNNING DB PATCH (STOK_UNIT) ---');
-    try {
-      const [colsStok] = await db.execute("DESCRIBE stok_unit");
-      const colNamesStok = colsStok.map(c => (c.Field || c.column_name || '').toLowerCase());
-
-      const addColStok = async (tbl, col, type) => {
-        if (!colNamesStok.includes(col.toLowerCase())) {
-          console.log(`Adding column ${col} to ${tbl}...`);
-          await db.execute(`ALTER TABLE ${tbl} ADD COLUMN ${col} ${type}`);
-        }
-      };
-
-      await addColStok('stok_unit', 'tt_merek', "VARCHAR(100) DEFAULT ''");
-      await addColStok('stok_unit', 'tt_tipe', "VARCHAR(100) DEFAULT ''");
-      await addColStok('stok_unit', 'tt_harga_jual', "BIGINT DEFAULT 0");
-    } catch (e) {
-      console.error('❌ PATCH_STOK_FAILED:', e.message);
-    }
+    console.log('--- SYNCING DATABASE SCHEMA ---');
+    await runPatch("ALTER TABLE karyawan ADD COLUMN jabatan VARCHAR(255) DEFAULT '-'");
+    await runPatch("ALTER TABLE karyawan ADD COLUMN no_hp VARCHAR(50) DEFAULT '-'");
+    await runPatch("ALTER TABLE karyawan ADD COLUMN email VARCHAR(255) DEFAULT '-'");
+    await runPatch("ALTER TABLE karyawan ADD COLUMN tgl_masuk DATE");
+    
+    await runPatch("ALTER TABLE stok_unit ADD COLUMN tt_merek VARCHAR(100) DEFAULT ''");
+    await runPatch("ALTER TABLE stok_unit ADD COLUMN tt_tipe VARCHAR(100) DEFAULT ''");
+    await runPatch("ALTER TABLE stok_unit ADD COLUMN tt_harga_jual BIGINT DEFAULT 0");
   } catch (err) {
     console.error('❌ DATABASE_INIT_FAILED:', err);
   }

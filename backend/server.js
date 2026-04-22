@@ -20,9 +20,11 @@ app.get(['/api/diag', '/diag'], async (req, res) => {
     const db = await getDB();
     await db.execute('SELECT 1');
     const [users] = await db.execute('SELECT COUNT(*) as total FROM users');
+    const [cols] = await db.execute('DESCRIBE karyawan');
     res.json({ 
       status: 'Koneksi Database SUKSES!', 
       total_user: users[0].total,
+      karyawan_columns: cols.map(c => c.Field || c.column_name),
       provider: 'Aiven MySQL' 
     });
   } catch (e) {
