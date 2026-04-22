@@ -307,7 +307,14 @@ router.post('/:id/bayar', authMiddleware, async (req, res) => {
     await conn.execute(`INSERT INTO transaksi_kas (tipe, jumlah, keterangan, tanggal) VALUES (?, ?, ?, ?)`,
       ['PROFIT_REALIZED', realizedProfit, `Profit Proporsional PIN ${pinjam.no_pinjaman} (${pinjam.nama_karyawan})`, tanggal_bayar]);
 
-    await conn.execute('UPDATE kas_utama SET saldo = saldo + ?', [Number(jumlah_bayar)]);
+    // V-FIX: Pastikan baris kas_utama id=1 ada
+    const [checkKas] = await conn.execute('SELECT id FROM kas_utama LIMIT 1');
+    if (checkKas.length === 0) {
+      await conn.execute('INSERT INTO kas_utama (id, saldo) VALUES (1, ?)', [Number(jumlah_bayar)]);
+    } else {
+      await conn.execute('UPDATE kas_utama SET saldo = saldo + ? WHERE id = ?', [Number(jumlah_bayar), checkKas[0].id]);
+    }
+
     await conn.execute('INSERT INTO transaksi_kas (tipe, jumlah, keterangan, tanggal) VALUES (?, ?, ?, ?)',
       ['masuk', Number(jumlah_bayar), `Cicilan ${pinjam.no_pinjaman} (${pinjam.nama_karyawan})`, tanggal_bayar]);
 
