@@ -101,9 +101,11 @@ async function initDB() {
         id INT PRIMARY KEY AUTO_INCREMENT, 
         pinjaman_id INT NOT NULL, 
         jumlah_bayar BIGINT NOT NULL, 
-        porsi_pokok BIGINT NOT NULL, 
-        porsi_bunga BIGINT NOT NULL, 
+        porsi_pokok BIGINT DEFAULT 0, 
+        porsi_bunga BIGINT DEFAULT 0, 
         tanggal_bayar DATE NOT NULL, 
+        metode_bayar VARCHAR(50) DEFAULT 'CASH',
+        diterima_oleh VARCHAR(255),
         keterangan TEXT 
       )`);
 
