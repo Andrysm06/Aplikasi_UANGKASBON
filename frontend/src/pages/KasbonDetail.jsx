@@ -287,20 +287,20 @@ export default function KasbonDetail() {
 
          {/* MODAL BAYAR */}
          {modalBayar && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-dark-950/90 backdrop-blur-xl animate-fade-in">
-               <div className="w-full max-w-xl bg-dark-900 rounded-[40px] border border-white/10 shadow-2xl animate-scale-up overflow-hidden">
-                  <div className="p-8 border-b border-white/5 flex justify-between items-center bg-white/3">
-                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10"><FiPlus className="text-primary-500" /></div>
+            <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-4 bg-dark-950/95 backdrop-blur-xl animate-fade-in">
+               <div className="w-full max-w-xl bg-dark-900 rounded-t-[40px] md:rounded-[40px] border-t md:border border-white/10 shadow-2xl animate-slide-up md:animate-scale-up overflow-hidden max-h-[95vh] flex flex-col">
+                  <div className="p-6 md:p-8 border-b border-white/5 flex justify-between items-center bg-white/3 flex-shrink-0">
+                     <div className="flex items-center gap-3 md:gap-4">
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10"><FiPlus className="text-primary-500" /></div>
                         <div>
-                           <h2 className="text-xl font-black text-white tracking-tighter uppercase italic leading-none">Pencatatan Cicilan</h2>
-                           <p className="text-[9px] text-dark-400 font-bold uppercase tracking-[0.2em] mt-2">PIN: {data.no_pinjaman} - {data.nama_karyawan}</p>
+                           <h2 className="text-lg md:text-xl font-black text-white tracking-tighter uppercase italic leading-none">Pencatatan Cicilan</h2>
+                           <p className="text-[8px] md:text-[9px] text-dark-400 font-bold uppercase tracking-[0.2em] mt-2">PIN: {data.no_pinjaman} - {data.nama_karyawan}</p>
                         </div>
                      </div>
-                     <button onClick={() => setModalBayar(false)} className="p-4 hover:bg-white/10 text-white rounded-2xl transition-all"><FiX size={20} /></button>
+                     <button onClick={() => setModalBayar(false)} className="p-3 md:p-4 hover:bg-white/10 text-white rounded-2xl transition-all"><FiX size={20} /></button>
                   </div>
 
-                  <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 overflow-y-auto">
                      <div className="space-y-6">
                         <div className="p-6 bg-dark-950 rounded-3xl border border-white/5 space-y-4">
                            <p className="text-[10px] text-dark-500 font-black uppercase tracking-widest italic border-b border-white/5 pb-2">Detail Transaksi</p>
@@ -349,7 +349,7 @@ export default function KasbonDetail() {
                               <button onClick={() => setForm({ jumlah_display: formatIDR(data.sisa_tagihan) })} className="p-4 bg-emerald-600/10 border border-emerald-500/30 hover:bg-emerald-600 hover:text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all italic text-emerald-400">
                                  LUNASI SEMUA
                               </button>
-                           </div>
+                                                      </div>
                         </div>
 
                         <form onSubmit={handleBayar} className="space-y-6">
@@ -359,7 +359,8 @@ export default function KasbonDetail() {
                                  <FiDollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-500 group-focus-within:scale-125 transition-all z-10" />
                                  <input
                                     type="text"
-                                    className="w-full h-16 bg-white border-2 border-primary-500/20 rounded-2xl pl-12 pr-6 text-2xl font-black text-black placeholder:text-dark-400 outline-none focus:border-primary-500 transition-all shadow-lg"
+                                    inputMode="numeric"
+                                    className="w-full h-14 md:h-16 bg-white border-2 border-primary-500/20 rounded-2xl pl-12 pr-6 text-xl md:text-2xl font-black text-black placeholder:text-dark-400 outline-none focus:border-primary-500 transition-all shadow-lg"
                                     placeholder="0"
                                     value={form.jumlah_display}
                                     onChange={e => setForm({ ...form, jumlah_display: formatIDR(e.target.value) })}
