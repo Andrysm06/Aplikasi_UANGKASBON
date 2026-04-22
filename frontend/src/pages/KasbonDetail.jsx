@@ -432,7 +432,7 @@ Kategori     : ${data.kategori}${data.nama_produk ? ' – ' + data.nama_produk :
 Tgl Pinjam   : ${formatDateShort(data.tanggal_pinjam)}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 Total Tagihan: ${formatCurrency(data.total_tagihan)}
-Skema Cicilan: ${formatCurrency(data.nominal_cicilan)} / ${data.tipe_cicilan === 'PER_BULAN' ? 'Bulan' : 'Rit'}
+${data.dp > 0 ? `Setoran DP   : ${formatCurrency(data.dp)}\n` : ''}Skema Cicilan: ${formatCurrency(data.nominal_cicilan)} / ${data.tipe_cicilan === 'PER_BULAN' ? 'Bulan' : 'Rit'}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 Riwayat Bayar:
 ${riwayat}
@@ -584,6 +584,11 @@ Harap segera melakukan pembayaran. Terima kasih.`
                   <div className="mx-4 border-t-2 border-gray-800 mt-3" />
                   <div className="px-5 py-3">
                      <StrukRow label="TOTAL TAGIHAN" value={formatCurrency(data.total_tagihan)} bold big />
+                     {data.dp > 0 && (
+                        <div className="mt-1 pt-1 border-t border-gray-100">
+                           <StrukRow label="Setoran DP" value={formatCurrency(data.dp)} color="text-green-600" />
+                        </div>
+                     )}
                   </div>
 
                   <div className="border-t-2 border-dashed border-gray-300 mx-4" />
