@@ -2,6 +2,21 @@ const express = require('express');
 const router = express.Router();
 const { getDB } = require('../database/db');
 const { authMiddleware, adminOnly } = require('../middleware/auth');
+ 
+// EMERGENCY RESET: Paksa buat baris kas_utama id=1
+router.get('/reset-saldo', authMiddleware, adminOnly, async (req, res) => {
+  const db = await getDB();
+  try {
+    const [rows] = await db.execute('SELECT * FROM kas_utama LIMIT 1');
+    if (rows.length === 0) {
+      await db.execute('INSERT INTO kas_utama (id, saldo) VALUES (1, 0)');
+      return res.json({ message: 'Baris saldo berhasil dibuat dari nol (0)' });
+    }
+    res.json({ message: 'Baris saldo sudah ada', data: rows[0] });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
 
 // GET Saldo & History Kas
 router.get('/', authMiddleware, async (req, res) => {
