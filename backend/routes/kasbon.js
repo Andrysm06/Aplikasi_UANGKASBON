@@ -26,11 +26,12 @@ router.get('/', authMiddleware, async (req, res) => {
 
     let q = `SELECT p.*, kar.nama as nama_karyawan, kar.nik FROM pinjaman p 
              JOIN karyawan kar ON p.karyawan_id = kar.id ${whereSQL}
-             ORDER BY p.created_at DESC LIMIT ? OFFSET ?`;
-    const [data] = await db.execute(q, [...params, limit, offset]);
+             ORDER BY p.created_at DESC LIMIT ${limit} OFFSET ${offset}`;
+    const [data] = await db.execute(q, params);
 
     res.json({ data, currentPage: Number(page), totalPages: Math.ceil(totalCount / limit), totalData: totalCount });
   } catch (e) {
+    console.error('❌ KASBON_FETCH_ERROR:', e.message);
     res.status(400).json({ message: 'DATABASE_ERROR: ' + e.message });
   }
 });

@@ -148,9 +148,9 @@ async function initDB() {
       )`);
 
     // SEED SETTING DEFAULT
-    const [sets] = await db.execute('SELECT * FROM setting WHERE `key` = "nama_toko" LIMIT 1');
+    const [sets] = await db.execute("SELECT * FROM setting WHERE `key` = 'nama_toko' LIMIT 1");
     if (sets.length === 0) {
-      await db.execute('INSERT INTO setting (`key`, value) VALUES (?, ?)', ['nama_toko', 'UANG KASBON']);
+      await db.execute("INSERT INTO setting (`key`, value) VALUES (?, ?)", ['nama_toko', 'UANG KASBON']);
     }
 
     // SEED ADMIN
