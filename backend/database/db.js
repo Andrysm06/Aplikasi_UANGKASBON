@@ -162,7 +162,7 @@ async function initDB() {
     }
 
     // SEED ADMIN
-    const [admins] = await db.execute('SELECT * FROM users WHERE role = "admin" LIMIT 1');
+    const [admins] = await db.execute("SELECT * FROM users WHERE role = 'admin' LIMIT 1");
     if (admins.length === 0) {
        const bcrypt = require('bcryptjs');
        const hash = bcrypt.hashSync('MASTER', 10);
