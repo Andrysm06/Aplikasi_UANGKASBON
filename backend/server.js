@@ -30,6 +30,20 @@ app.get(['/api/diag', '/diag'], async (req, res) => {
   }
 });
 
+// Force Seed Admin
+app.get('/api/force-seed', async (req, res) => {
+  try {
+    const { getDB } = require('./database/db');
+    const db = await getDB();
+    const bcrypt = require('bcryptjs');
+    const hash = bcrypt.hashSync('MASTER', 10);
+    await db.execute('INSERT INTO users (nama, username, password, role) VALUES (?, ?, ?, ?)', ['Admin Utama', 'admin', hash, 'admin']);
+    res.json({ status: 'Admin Created Successfully!' });
+  } catch (e) {
+    res.status(500).json({ status: 'Force Seed Failed', error: e.message });
+  }
+});
+
 // Import Rute Asli
 const authRoutes = require('./routes/auth');
 const kasbonRoutes = require('./routes/kasbon');
