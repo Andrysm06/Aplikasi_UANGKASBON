@@ -20,7 +20,12 @@ router.post('/modal', authMiddleware, adminOnly, async (req, res) => {
   const conn = await db.getConnection();
   try {
     await conn.beginTransaction();
-    await conn.execute('UPDATE kas_utama SET saldo = saldo + ?, updated_at = CURRENT_TIMESTAMP', [jumlah]);
+    const [checkKas] = await conn.execute('SELECT id FROM kas_utama LIMIT 1');
+    if (checkKas.length === 0) {
+      await conn.execute('INSERT INTO kas_utama (id, saldo) VALUES (1, ?)', [jumlah]);
+    } else {
+      await conn.execute('UPDATE kas_utama SET saldo = saldo + ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [jumlah, checkKas[0].id]);
+    }
     await conn.execute('INSERT INTO transaksi_kas (tipe, jumlah, keterangan) VALUES (?, ?, ?)', ['masuk', jumlah, keterangan || 'Uang Masuk/Modal']);
     await conn.commit();
     res.json({ message: 'Saldo berhasil ditambahkan' });
@@ -48,7 +53,14 @@ router.post('/tarik', authMiddleware, adminOnly, async (req, res) => {
     }
 
     await conn.beginTransaction();
-    await conn.execute('UPDATE kas_utama SET saldo = saldo - ?, updated_at = CURRENT_TIMESTAMP', [jumlah]);
+    const [checkKas] = await conn.execute('SELECT id FROM kas_utama LIMIT 1');
+    if (checkKas.length === 0) {
+       // Jika tidak ada data kas, anggap saldo 0, maka tarik akan gagal di atas
+       await conn.rollback();
+       conn.release();
+       return res.status(400).json({ message: 'Saldo tidak tersedia' });
+    }
+    await conn.execute('UPDATE kas_utama SET saldo = saldo - ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [jumlah, checkKas[0].id]);
     await conn.execute('INSERT INTO transaksi_kas (tipe, jumlah, keterangan) VALUES (?, ?, ?)', ['keluar', jumlah, keterangan || 'Penarikan Kas']);
     await conn.commit();
     res.json({ message: 'Saldo berhasil dikurangi' });
