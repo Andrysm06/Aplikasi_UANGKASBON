@@ -57,12 +57,11 @@ export default function Login() {
         <div className="mb-14 flex flex-col items-center">
           <div className="relative w-24 h-24 mb-6 group animate-float">
             <div className="absolute inset-0 bg-primary-500 rounded-[32px] blur-[15px] opacity-20" />
-            <div className="w-24 h-24 bg-gradient-to-br from-indigo-400 via-primary-500 to-primary-700 rounded-[32px] flex items-center justify-center shadow-[0_20px_50px_rgba(59,130,246,0.3)] relative border border-white/10 overflow-hidden">
-               <FiCreditCard className="w-10 h-10 text-white/90" />
-               <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-2xl transform rotate-12 transition-transform">
-                  <FiDollarSign className="w-8 h-8 text-primary-600 animate-pulse" />
-               </div>
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              className="w-24 h-24 rounded-[32px] object-cover shadow-[0_20px_50px_rgba(59,130,246,0.3)] relative border border-white/10"
+            />
           </div>
           <h2 className="text-[10px] font-black text-dark-400 uppercase tracking-[0.5em] opacity-80 leading-none">Keamanan Akses</h2>
         </div>

@@ -66,12 +66,11 @@ export default function Layout() {
       <div className="flex items-center gap-4 px-6 py-5 border-b border-white/5 relative overflow-hidden group">
         <div className="relative w-11 h-11 flex-shrink-0 animate-float">
           <div className="absolute inset-0 bg-primary-500 rounded-2xl blur-[10px] opacity-20 group-hover:opacity-40 transition-opacity" />
-          <div className="w-11 h-11 bg-gradient-to-br from-indigo-400 via-primary-500 to-primary-700 rounded-2xl flex items-center justify-center shadow-2xl relative border border-white/10 overflow-hidden">
-             <FiCreditCard className="w-6 h-6 text-white/90" />
-             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform">
-                <FiDollarSign className="w-4 h-4 text-primary-600 animate-pulse" />
-             </div>
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="Logo" 
+            className="w-11 h-11 rounded-2xl object-cover shadow-2xl relative border border-white/10"
+          />
         </div>
         <div className="relative">
           <p className="text-[12px] text-white font-black uppercase tracking-widest leading-none">Sistem Internal</p>
