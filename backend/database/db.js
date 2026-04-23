@@ -9,12 +9,22 @@ if (missingEnv.length > 0 && process.env.NODE_ENV === 'production') {
   console.warn(`⚠️ MISSING ENV VARS: ${missingEnv.join(', ')}`);
 }
 
+// Auto-fix host if it contains port (e.g. host:port)
+let rawHost = process.env.MYSQL_HOST || '';
+let parsedPort = process.env.MYSQL_PORT || 24904;
+
+if (rawHost.includes(':')) {
+  const [h, p] = rawHost.split(':');
+  rawHost = h;
+  parsedPort = p;
+}
+
 const dbConfig = {
-  host: process.env.MYSQL_HOST,
-  port: process.env.MYSQL_PORT || 24904,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+  host: rawHost.trim(),
+  port: Number(parsedPort),
+  user: (process.env.MYSQL_USER || '').trim(),
+  password: (process.env.MYSQL_PASSWORD || '').trim(),
+  database: (process.env.MYSQL_DATABASE || '').trim(),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
