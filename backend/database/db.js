@@ -2,6 +2,13 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 // CONFIG DATABASE MYSQL (Aiven / Remote)
+const requiredEnv = ['MYSQL_HOST', 'MYSQL_USER', 'MYSQL_PASSWORD', 'MYSQL_DATABASE'];
+const missingEnv = requiredEnv.filter(env => !process.env[env]);
+
+if (missingEnv.length > 0 && process.env.NODE_ENV === 'production') {
+  console.warn(`⚠️ MISSING ENV VARS: ${missingEnv.join(', ')}`);
+}
+
 const dbConfig = {
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT || 24904,
@@ -208,4 +215,16 @@ async function initDB() {
   }
 }
 
-module.exports = { getDB, initDB, migrationStatus };
+async function ensureInit() {
+  if (migrationStatus.status === 'pending') {
+    await initDB();
+  }
+  // Wait if still running (simple poll)
+  let retries = 0;
+  while (migrationStatus.status === 'running' && retries < 10) {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    retries++;
+  }
+}
+
+module.exports = { getDB, initDB, ensureInit, migrationStatus };

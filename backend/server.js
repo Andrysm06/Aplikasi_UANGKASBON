@@ -32,6 +32,7 @@ app.get(['/api/diag', '/diag'], async (req, res) => {
       total_user: users[0].total,
       karyawan_columns: cols.map(c => c.Field || c.column_name),
       migration: migrationStatus,
+      jwt_secret_configured: !!process.env.JWT_SECRET,
       provider: 'Aiven MySQL' 
     });
   } catch (e) {

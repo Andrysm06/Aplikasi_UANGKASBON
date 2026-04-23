@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { getDB } = require('../database/db');
 const { authMiddleware, adminOrManager } = require('../middleware/auth');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const MASTER_PIN = '2002106'; // KUNCI UTAMA ANDA
+const { getDB, ensureInit } = require('../database/db');
 
 // LOGIN CERDAS (V6.13.2) - MENDUKUNG PIN DAN USER/PASS
 router.post('/login', async (req, res) => {
-  const db = await getDB();
-  const { p, username, password } = req.body;
-  
   try {
+    await ensureInit();
+    const db = await getDB();
+    const { p, username, password } = req.body;
+
     let user = null;
 
     // A. SISTEM LOGIN PIN (Paling Utama)
@@ -35,11 +36,21 @@ router.post('/login', async (req, res) => {
        return res.status(401).json({ message: 'Akses Ditolak: PIN/Login Salah!' });
     }
 
+    if (!process.env.JWT_SECRET) {
+       throw new Error('JWT_SECRET is missing in environment variables');
+    }
+
     const token = jwt.sign({ id: user.id, username: user.username, role: user.role, nama: user.nama }, process.env.JWT_SECRET, { expiresIn: '8h' });
     res.json({ token, user: { id: user.id, username: user.username, role: user.role, nama: user.nama } });
 
   } catch (e) {
-    res.status(500).json({ message: 'DASHBOARD_ERROR: ' + e.message });
+    console.error('LOGIN_ERROR:', e);
+    const { migrationStatus } = require('../database/db');
+    res.status(500).json({ 
+      message: 'DASHBOARD_ERROR: ' + e.message,
+      migration: migrationStatus,
+      hint: 'Periksa environment variables (MYSQL_HOST, JWT_SECRET, dll) di Vercel Dashboard.'
+    });
   }
 });
 
